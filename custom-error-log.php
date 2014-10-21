@@ -2,7 +2,8 @@
 
 /*
 Plugin Name: Custom Error Log
-Description: Allows PHP developers to create custom errors in their Wordpress theme or plugin and monitor errors in the admin area. Great for debugging those long and complex scripts. Each error can have its own error message making it a lot easier to pin down specific issues in your code.
+Plugin URI: https://github.com/danbahrami/custom-error-log
+Description: A tool for logging and monitoring custom errors, making debugging complex PHP a breeze. Each error can have its own error message making it a lot easier to pin down specific issues in your code.
 Text Domain: custom-error-log
 Domain Path: /languages
 Author: Dan Bahrami
