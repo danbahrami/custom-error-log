@@ -1,6 +1,5 @@
-=== Plugin Name ===
+=== Custom Error Log ===
 Contributors: danbahrami
-Donate link:
 Tags: error, errors, custom errors, error log, log, php, php error, php errors, debug, debugging
 Requires at least: 3.0.1
 Tested up to: 4.0.0
