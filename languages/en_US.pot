@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Custom Error Log\n"
-"POT-Creation-Date: 2014-10-21 12:45-0000\n"
-"PO-Revision-Date: 2014-10-21 12:46-0000\n"
+"POT-Creation-Date: 2014-10-22 11:46-0000\n"
+"PO-Revision-Date: 2014-10-22 11:47-0000\n"
 "Last-Translator: Dan Bahrami <dan.bahrami@googlemail.com>\n"
 "Language-Team: \n"
 "Language: en_US\n"
@@ -15,11 +15,11 @@ msgstr ""
 "X-Poedit-KeywordsList: __;_e;_n:1,2;_x:1,2c;_ex:1,2c\n"
 "X-Poedit-SearchPath-0: ..\n"
 
-#: ../admin/admin.php:18 ../admin/admin.php:19
+#: ../admin/admin.php:18 ../admin/admin.php:19 ../admin/admin.php:36
 msgid "Error Log"
 msgstr ""
 
-#: ../admin/admin.php:62
+#: ../admin/admin.php:64
 msgid "Deleting"
 msgstr ""
 
@@ -61,7 +61,7 @@ msgstr ""
 msgid "Log an error"
 msgstr ""
 
-#: ../admin/introduction.php:34
+#: ../admin/introduction.php:34 ../admin/introduction.php:74
 msgid "There was an error with my theme"
 msgstr ""
 
@@ -85,40 +85,51 @@ msgstr ""
 msgid "error handling when creating a Wordpress user programatically"
 msgstr ""
 
-#: ../admin/log-table.php:50
+#: ../admin/introduction.php:65
+msgid "Make it theme ready"
+msgstr ""
+
+#: ../admin/introduction.php:67
+msgid ""
+"If you want to include the basic functions of custom error log in themes "
+"that will be used by other people make sure to check if the function exists "
+"first to avoid errors"
+msgstr ""
+
+#: ../admin/log-table.php:18
 msgid "Error Logs"
 msgstr ""
 
-#: ../admin/log-table.php:90
+#: ../admin/log-table.php:52
 msgid "Date"
 msgstr ""
 
-#: ../admin/log-table.php:92
+#: ../admin/log-table.php:54
 msgid "Time"
 msgstr ""
 
-#: ../admin/log-table.php:94
+#: ../admin/log-table.php:56
 msgid "Message"
 msgstr ""
 
 #: ../includes/functions.php:122
 #, php-format
-msgid "%s %d has been successfully deleted."
+msgid "%s %d has been successfully deleted"
 msgstr ""
 
 #: ../includes/functions.php:130
 #, php-format
-msgid "%s %d could not be deleted."
+msgid "%s %d could not be deleted"
 msgstr ""
 
 #: ../includes/functions.php:170
-msgid "All errors have been deleted."
+msgid "All errors have been deleted"
 msgstr ""
 
 #: ../includes/functions.php:178
-msgid "Errors could not be deleted."
+msgid "Errors could not be deleted"
 msgstr ""
 
-#: ../includes/functions.php:246
-msgid "There was an error filtering the log"
+#: ../includes/functions.php:374
+msgid "No logs could be found"
 msgstr ""

@@ -62,7 +62,7 @@ function cel_admin_scripts() {
 	
 		'ajaxurl' => admin_url( 'admin-ajax.php' ),
 		'deleting' => __( 'Deleting', 'custom-error-log' ) . '...'
-		
+			
 	);
 	
 	wp_localize_script( 'logTable', 'errorAjax', $data_array );
@@ -70,7 +70,6 @@ function cel_admin_scripts() {
 	if( is_admin() ) {
 	
 		wp_enqueue_style( 'mainStyle');
-		
 		wp_enqueue_script( 'logTable' );
 		
 	}

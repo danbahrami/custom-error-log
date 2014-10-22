@@ -35,8 +35,8 @@ $output .= '<pre>log_error( \'' . __( 'There was an error with my theme', 'custo
 
 $output .= __( 'Use dynamic content to log an error', 'custom-error-log' ) . ':';
 
-$output .= '<pre>$error = \'' . __( 'There was an error with', 'custom-error-log' ) . ' \' . $foo . \' ' . __( 'in my theme\'', 'custom-error-log' ) . ';
-log_error( $error );</pre>';
+$output .= '<pre>$message = \'' . __( 'There was an error with', 'custom-error-log' ) . ' \' . $foo . \' ' . __( 'in my theme\'', 'custom-error-log' ) . ';
+log_error( $message );</pre>';
 
 $output .= '<strong>' . __( 'A real life example', 'custom-error-log' ) . ':</strong> '; 
 
@@ -58,8 +58,22 @@ if( is_wp_error( $user_id ) ) {
 	$message .= \' The following error occurred: \' . $error_response;
 	
 	<span class="pre-comment">//Log custom error</span>
-	log_error($message);
+	log_error( $message );
 
 }</pre>';
+
+$output .= '<hr style="margin-top:30px;"><h3 style="margin-top:30px;">' . __( 'Make it theme ready', 'custom-error-log' ) . '</h3>';
+
+$output .= __( 'If you want to include the basic functions of custom error log in themes that will be used by other people make sure to check if the function exists first to avoid errors', 'custom-error-log' ) . ':';
+
+$output .= '<pre>
+<span class="pre-comment">//If custom error log is active...</span>
+if( function_exists ) {
+
+	<span class="pre-comment">//Log the error...</span>
+	log_error( \'' . __( 'There was an error with my theme', 'custom-error-log' ) . '\' );
+
+}
+</pre>';
 
 echo $output;
