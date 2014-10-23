@@ -25,12 +25,14 @@ function log_error( $message ) {
 		
 	}
 	
+	$error_id = $error_log['next_error'];
+	
 	/* Insert new error into array... */
-	$error_log['errors'][$error_log['next_error']] = array(
+	$error_log['errors'][$error_id] = array(
 	
 		'type'			=> 'error',
 		'date'			=> current_time( 'timestamp' ),
-		'id'			=> $error_log['next_error'],
+		'id'			=> $error_id,
 		'message'		=> sanitize_text_field( $message )
 		
 	);
@@ -39,7 +41,14 @@ function log_error( $message ) {
 	$error_log['next_error']++;
 	
 	/* Update the error log in the wp_options table... */
-	update_option( 'custom_error_log', $error_log );
+	$update = update_option( 'custom_error_log', $error_log );
+	
+	/* Add to list of new logs... */
+	if( $update ) {
+		
+		cel_add_to_new_logs( $error_id, 'errors' );
+		
+	}
 
 }
 
@@ -63,12 +72,14 @@ function log_notice( $message ) {
 		
 	}
 	
+	$notice_id = $notice_log['next_notice'];
+	
 	/* Insert new notice into array... */
-	$notice_log['notices'][$notice_log['next_notice']] = array(
+	$notice_log['notices'][$notice_id] = array(
 	
 		'type'			=> 'notice',
 		'date'			=> current_time( 'timestamp' ),
-		'id'			=> $notice_log['next_notice'],
+		'id'			=> $notice_id,
 		'message'		=> sanitize_text_field( $message )
 		
 	);
@@ -77,7 +88,14 @@ function log_notice( $message ) {
 	$notice_log['next_notice']++;
 	
 	/* Update the notice log in the wp_options table... */
-	update_option( 'custom_notice_log', $notice_log );
+	$update = update_option( 'custom_notice_log', $notice_log );
+	
+	/* Add to list of new logs... */
+	if( $update ) {
+		
+		cel_add_to_new_logs( $notice_id, 'notices' );
+		
+	}
 
 }
 
@@ -366,9 +384,6 @@ cel_format_logs() outputs the logs in the right format to go in the log table...
 
 function cel_format_logs( &$logs, $nonce ) {
 	
-	$count = 1;
-	$row_class = 'cel-table-row';
-	
 	if( !$logs ) {
 	
 		return __( 'No logs could be found', 'custom-error-log' );
@@ -378,11 +393,28 @@ function cel_format_logs( &$logs, $nonce ) {
 	/* Sort logs into date order... */
 	uasort( $logs['logs'], 'cel_sort_by_date' );
 	
+	/* Get the list of new logs so we can mark unseen logs as new... */
+	$new_logs = get_option( 'cel_new_logs', true );
+	
 	/* Create output for each log... */
 	$return = '';
+	$count = 1;
+	$row_class = 'cel-table-row';
 	
 	/* Start the loop... */
 	foreach( $logs['logs'] as $log ) {
+		
+		/* Check if the log is new... */
+		if( $new_logs ) {
+			
+			/* If the current log is in the new logs then add an extra class... */
+			if( in_array( $log['id'], $new_logs[$log['type'] . 's'] ) ) {
+				
+				$row_class .= ' cel-new-log';
+				
+			}
+			
+		}
 		
 		/* Build the output for each table row... */
 		$return .= '<tr class="' . $row_class . ' cel-' . $log['type'] . '" id="' . $log['type'] . '-' . $log['id'] . '">';
@@ -416,5 +448,47 @@ function cel_format_logs( &$logs, $nonce ) {
 	/* End the loop... */
 	
 	return $return;
+	
+}
+
+/*
+cel_ab_toggle() toggles on/off the admin bar item...
+*/
+
+function cel_ab_toggle() {
+	
+	$value = $_POST['update'];
+	
+	$update = update_option( 'cel_ab_show', $value );
+	
+	die();
+	
+}
+
+add_action( 'wp_ajax_nopriv_cel_ab_toggle', 'cel_ab_toggle' );
+add_action( 'wp_ajax_cel_ab_toggle', 'cel_ab_toggle' );
+
+/*
+cel_add_to_new_logs() adds a new log to the cel_new_logs option...
+Currently used for displaying the amount of unmoderated logs in the admin bar...
+*/
+function cel_add_to_new_logs( $id, $type ) {
+	
+	$new_logs = get_option( 'cel_new_logs', true );
+	
+	if( !$new_logs ) {
+	
+		$new_logs = array(
+		
+			'errors'	=> array(),
+			'notices'	=> array()
+		
+		);
+		
+	}
+	
+	$new_logs[$type][] = $id;
+	
+	$update = update_option( 'cel_new_logs', $new_logs );
 	
 }

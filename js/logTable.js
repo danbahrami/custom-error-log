@@ -8,7 +8,7 @@ This file handles all the ajax used by the delete buttons in the error_log table
 var $ = jQuery.noConflict();
 
 /*
-Load all functions on page load...
+Load all functions when document is ready...
 */
 
 $( document ).ready( function() {
@@ -16,6 +16,7 @@ $( document ).ready( function() {
 	celDeleteSingle();
 	celDeleteAll();
 	celLogFilter();
+	celAbToggle();
 
 });
 	
@@ -46,6 +47,7 @@ function celDeleteSingle() {
 		var error_code = $( this ).attr( 'rel' );
 		var deleted = '#'+log_type+'-'+error_code;
 		
+		/* Toggle class of all table rows after current to maintain the nice stripes... */
 		$( deleted ).nextAll().toggleClass( 'cel-dark' );
 		$( deleted ).hide();
 		
@@ -173,4 +175,96 @@ function celLogFilter() {
 	
 	});
 
+}
+
+/*
+Toggles on and off the admin bar button...
+*/
+
+function celAbToggle() {
+	
+	$( '#cel_ab_show' ).change( function() {
+		
+		if( $( this ).is( ":checked" ) ) {
+			
+			var toggle_value = 1;
+			$( '#wp-admin-bar-error-log' ).show();
+			
+		}
+		
+		else {
+			
+			var toggle_value = 0;
+			$( '#wp-admin-bar-error-log' ).hide();
+			
+		}
+		
+		$.ajax({
+		
+	        type: 'POST',
+	        url: errorAjax.ajaxurl,
+	        data: {
+	        
+	            action: 'cel_ab_toggle',
+	            update: toggle_value,
+	            
+	        },
+	        success: function( data, textStatus, XMLHttpRequest ) {
+				
+	        },
+	        error: function( MLHttpRequest, textStatus, errorThrown ) {
+	        
+	            alert( errorThrown );
+	            
+	        }
+	        
+	    });
+		
+	});
+	
+}
+
+/*
+Load function when the window has loaded...
+*/
+
+$( window ).on( 'load', function() {
+	
+	celHighlightNewLogs();
+
+});
+
+/*
+celHighlightNewLogs() adds a bit of a flourish to new logs...
+*/
+
+function celHighlightNewLogs() {
+	
+	$( '.cel-new-log' ).each( function() {
+		
+		/* Find out if this is a dark row or not... */
+		if( $( this ).is( '.cel-dark' ) ) {
+			
+			var color = '#e6e6e6';
+			
+		}
+		
+		else {
+			
+			var color = '#f1f1f1';
+			
+		}
+		
+		/* Store current item as var so we can use it in a timeout function... */
+		var current = this;
+		
+		/* after 800ms convert the background color back to normal... */
+		setTimeout( function(){
+		
+			$( current ).find( 'td' ).css( 'background', color );
+		
+		}, 800 );
+		
+	})
+	
 }

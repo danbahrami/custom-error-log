@@ -7,7 +7,7 @@ Description: A tool for logging and monitoring custom errors, making debugging c
 Text Domain: custom-error-log
 Domain Path: /languages
 Author: Dan Bahrami
-Version: 1.0.0
+Version: 1.1
 License: GPL2
 
 When developing a Wordpress theme that imported and synced data with a MS Dynamics CRM I found that
@@ -21,7 +21,7 @@ General Public License version 2, as published by the Free Software Foundation. 
 that you can use any other version of the GPL.
 
 @package Custom Error Log
-@version 1.0.0
+@version 1.1
 @author Dan Bahrami
 @copyright Copyright (c) 2014, Dan Bahrami
 @license http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
@@ -73,6 +73,7 @@ class cel_load {
 		
 		/* Include main admin file, this sets up the plugin's admin area */
 		require_once( CEL_DIR . 'admin/admin.php');
+		require_once( CEL_DIR . 'admin/admin-bar.php');
 		
 	}
 	
@@ -81,6 +82,8 @@ class cel_load {
 		/* On activation create two fields in the wp_options table to store our errors and notices. */
 		add_option( 'custom_error_log' );
 		add_option( 'custom_notice_log' );
+		add_option( 'cel_new_logs' );
+		add_option( 'cel_ab_show', true );
 		
 	}
 	
@@ -89,6 +92,8 @@ class cel_load {
 		/* On deactivation clear errors and notices from the database. */
 		delete_option( 'custom_error_log' );
 		delete_option( 'custom_notice_log' );
+		delete_option( 'cel_new_logs' );
+		delete_option( 'cel_ab_show' );
 		
 	}
 	

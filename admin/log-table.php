@@ -9,15 +9,30 @@ This file holds the output for the admin error log under the 'Tools' menu.
 
 $logs = cel_get_all_logs();
 
-/*
-Start building the page...
-*/
+/* Find out if the user has selected to see the admin menu icon... */
+$ab_show = get_option( 'cel_ab_show', true );
+
+$ab_checked = null;
+
+if( $ab_show == true ) {
+	
+	$ab_checked = 'checked';
+	
+}
 
 ?>
 
-<h1><?php __( 'Error Logs', 'custom-error-log' ); ?></h1>
-
+<form id="cel-ab-toggle" method="post" action="">
+		
+	<label><?php _e( 'Show in the admin bar', 'custom-error-log' ); ?></label>
+			
+	<input type="checkbox" name="cel_ab_show" id="cel_ab_show" <?php echo $ab_checked; ?> />
+			
+</form>
+		
 <div class="wrap" id="error-log">
+
+	<hr style="margin-bottom: 15px;">
 
 	<div id="cel-ajax-message"></div>
 
@@ -31,15 +46,27 @@ Start building the page...
 		/* If there are both notices and errors output filter buttons... */
 		if( $logs['have_both'] == true ) { ?>
 			
-			<a class="cel-log-filter" filter="all" nonce="<?php echo $nonce; ?>">All</a> |
+			<a class="cel-log-filter" filter="all" nonce="<?php echo $nonce; ?>">
 			
-			<a class="cel-log-filter" filter="error" nonce="<?php echo $nonce; ?>">Errors</a> |
+				<?php _e( 'All', 'custom-error-log' ); ?>
+			
+			</a> |
+			
+			<a class="cel-log-filter" filter="error" nonce="<?php echo $nonce; ?>">
+				
+				<?php _e( 'Errors', 'custom-error-log' ); ?>
+				
+			</a> |
 
-			<a class="cel-log-filter" filter="notice" nonce="<?php echo $nonce; ?>">Notices</a>
+			<a class="cel-log-filter" filter="notice" nonce="<?php echo $nonce; ?>">
+				
+				<?php _e( 'Notices', 'custom-error-log' ); ?>
+				
+			</a>
 
 		<?php } ?>
 		
-		<a class="cel-delete-all" data-nonce="<?php echo $nonce; ?>">Clear Log</a>
+		<a class="cel-delete-all" data-nonce="<?php echo $nonce; ?>"><?php _e( 'Clear Log', 'custom-error-log' ); ?></a>
 		
 		<table class="cel-table">
 		
